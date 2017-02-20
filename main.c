@@ -2,17 +2,22 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stdint.h>
-#include "print_ppm.h"
-#include "print_functions.h"
+#include "read_and_print_functions.h"
+
+void main1();
 
 int main(int argc, char *argv[]) {
-	char *filename1 = "different_colors.ppm";
-	char *filename2 = "copy_from_file.ppm";
-	int x,y;
-	set_get_filename(filename1, 0);
-	print_from_file(0, 0, 0, NULL);
-	x = set_get_x(0, 1);
-	y = set_get_y(0, 1);
-	print_ppm(filename2, x, y, print_copy);
+	main1();
 	return 0;
+}
+
+void main1() {
+	char *filename1 = "different_colors.ppm";
+	char *filename2 = "copy_from_file2.ppm";
+	PICTURE *pic = read_picture(filename1);
+	if (pic == NULL) {
+		return;
+	}
+	print_picture(pic, filename2);
+	free_picture(pic);
 }
