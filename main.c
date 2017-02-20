@@ -3,6 +3,7 @@
 #include <inttypes.h>
 #include <stdint.h>
 #include "read_and_print_functions.h"
+#include "make_stereogram.h"
 
 void main1();
 
@@ -12,12 +13,15 @@ int main(int argc, char *argv[]) {
 }
 
 void main1() {
-	char *filename1 = "different_colors.ppm";
-	char *filename2 = "copy_from_file2.ppm";
+	char *filename1 = "turtle.ppm";
+	char *filename2 = "turtle_stereogram.ppm";
 	PICTURE *pic = read_picture(filename1);
+	PICTURE *pic2;
 	if (pic == NULL) {
 		return;
 	}
-	print_picture(pic, filename2);
+	pic2 = depthmap2stereogram(pic, 200, 100, random);
 	free_picture(pic);
+	print_picture(pic, filename2);
+	free_picture(pic2);
 }
