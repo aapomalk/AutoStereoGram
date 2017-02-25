@@ -14,7 +14,7 @@ PICTURE* depthmap2stereogram(PICTURE *depthmap, int maxdepth, int mindepth, PIXE
 		for (x=0; x<(stereogram->x); x++) {
 			if (x < maxdepth) {
 				PIXEL *new;
-				new = initial_pixels(x, y);
+				new = initial_pixels(x - (stereogram->x - maxdepth) / 2, y); /* centering */
 				(*(stereogram->pic+x+y*stereogram->x))[0] = (*new)[0];
 				(*(stereogram->pic+x+y*stereogram->x))[1] = (*new)[1];
 				(*(stereogram->pic+x+y*stereogram->x))[2] = (*new)[2];
@@ -123,6 +123,9 @@ PIXEL* prepare_picture(int mode, char *filename, int x, int y) {
 		pic = read_picture(filename);
 		return NULL;
 	} else if (mode == 1) {
+		if (x < 0) {
+			x = (x % pic->x) + pic->x;
+		}
 		return (pic->pic + (x % pic->x) + (y % pic->y) * pic->x);
 	} else {
 		free_picture(pic);
